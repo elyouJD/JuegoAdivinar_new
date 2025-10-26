@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juego de Adivinar Número</title>
+    <style>
+      body {
+        background-color: rgb(101, 116, 163);
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      div {
+        background: linear-gradient(
+          to right,
+          rgb(53, 7, 77),
+          rgb(83, 8, 68),
+          rgb(77, 0, 128)
+        );
+        width: 50%;
+        min-height: 80vh;
+        position: relative;
+        left: 25%;
+        text-align: center;
+        border-radius: 10px;
+        padding: 20px;
+        color: white;
+      }
+
+      ul {
+        padding: 0;
+      }
+
+      ul li {
+        list-style: none;
+      }
+
+      .li_1 {
+        padding: 10px;
+        margin: 5px;
+        border: solid 2px black;
+        border-radius: 10px;
+        background: linear-gradient(
+          to right,
+          rgb(45, 5, 53),
+          rgb(155, 46, 6),
+          green
+        );
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        color: aliceblue;
+        transition: transform 0.2s ease;
+      }
+
+      .li_1:hover {
+        transform: scale(1.05);
+      }
+
+      .lista_2 {
+        display: none;
+        background-color: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        padding: 10px;
+        margin-top: 10px;
+      }
+
+      /*  .li_2 {
+        list-style: none;
+        text-align: left;
+        padding: 5px;
+        color: #eee;
+        font-size: 15px;
+      }*/
+      .li_2 {
+        padding: 10px;
+        margin: 5px;
+        border: solid 2px black;
+        border-radius: 10px;
+        background: linear-gradient(
+          to right,
+          rgb(45, 5, 53),
+          rgb(155, 46, 6),
+          green
+        );
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        color: aliceblue;
+        transition: transform 0.2s ease;
+      }
+
+      .li_2:hover {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>🎯 Juego de Adivinar Número</h1>
+
+      <ul class="lista_1">
+        <!-- Button reglas-->
+        <li class="li_1" id="btnReglas">Reglas rápidas</li>
+
+        <!-- Reglas-->
+        <ul class="lista_2" id="reglas">
+          <li class="li_2">Se genera un número aleatorio entre 1 y 100.</li>
+          <li class="li_2">Inserta tu estimación en el cuadro.</li>
+          <li class="li_2">
+            Si no es número o está fuera de rango, te pedirá de nuevo.
+          </li>
+          <li class="li_2">Si aciertas: se muestra el número de intentos.</li>
+          <li class="li_2">
+            Si pulsas Cancel en cualquier prompt, el juego se cancela.
+          </li>
+        </ul>
+
+        <!-- Button de comenzar-->
+        <li class="li_1" id="btnComenzar">Comenzar</li>
+
+        <!-- Button de cancelar-->
+        <li class="li_1" id="btnSalir">Cancelar</li>
+      </ul>
+    </div>
+
+    <script>
+      // ---------------------
+      // 🎮 Mostrar / Ocultar reglas
+      // ---------------------
+      const btnReglas = document.getElementById("btnReglas");
+      const reglas = document.getElementById("reglas");
+
+      btnReglas.addEventListener("click", () => {
+        reglas.style.display =
+          reglas.style.display === "block" ? "none" : "block";
+      });
+
+      // ---------------------
+      // 🎯 Juego principal
+      // ---------------------
+      const btnComenzar = document.getElementById("btnComenzar");
+      btnComenzar.addEventListener("click", () => {
+        let numAleatorio = Math.floor(Math.random() * 100) + 1;
+        let intentos = 0;
+
+        while (true) {
+          let entrada = prompt("Introduce un número del 1 al 100:");
+
+          if (entrada === null) {
+            alert("Juego cancelado. ¡Hasta la próxima!");
+            break;
+          }
+
+          let numero = parseInt(entrada);
+
+          if (isNaN(numero) || numero < 1 || numero > 100) {
+            alert("Por favor, introduce un número válido entre 1 y 100.");
+            continue;
+          }
+
+          intentos++;
+
+          if (numero === numAleatorio) {
+            alert("🎉 ¡Acertaste! Número de intentos: " + intentos);
+
+            let jugarDeNuevo = confirm("¿Quieres jugar otra vez?");
+            if (jugarDeNuevo) {
+              numAleatorio = Math.floor(Math.random() * 100) + 1;
+              intentos = 0;
+              continue;
+            } else {
+              alert("Gracias por jugar 😊");
+              break;
+            }
+          } else if (numero < numAleatorio) {
+            alert("El número secreto es MAYOR.");
+          } else {
+            alert("El número secreto es MENOR.");
+          }
+        }
+      });
+
+      // ---------------------
+      // 🚪 Botón Salir
+      // ---------------------
+      const btnSalir = document.getElementById("btnSalir");
+      btnSalir.addEventListener("click", () => {
+        alert("Has salido del juego. 👋");
+        window.close(); // يسد النافذة إذا كان ممكن
+      });
+    </script>
+  </body>
+</html>
